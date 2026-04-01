@@ -1,0 +1,10 @@
+services:
+  lote-publisher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /etc/lote/signing-cert.pem:/etc/lote/signing-cert.pem:ro
+      - /etc/lote/signing-key.pem:/etc/lote/signing-key.pem:ro
+      - /var/www/html/lote:/var/www/html/lote
+    restart: unless-stopped

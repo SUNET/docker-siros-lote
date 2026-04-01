@@ -1,0 +1,11 @@
+# LoTE Publishing Pipeline (ETSI TS 119 602)
+# Fetches the LoTE document from ms-registry, signs it with JWS,
+# and publishes to /var/www/html/lote/.
+
+- load-lote:
+    - http://ms-registry:8000/registry/lote-se/
+
+- publish-lote:
+    - /var/www/html/lote
+    - /etc/lote/signing-cert.pem
+    - /etc/lote/signing-key.pem
