@@ -31,6 +31,7 @@ FROM alpine:latest
 RUN apk add --no-cache \
     ca-certificates \
     bash \
+    openssl \
     libxml2 \
     libxslt \
     && update-ca-certificates
