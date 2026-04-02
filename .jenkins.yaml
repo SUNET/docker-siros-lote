@@ -1,0 +1,12 @@
+---
+triggers:
+  cron: "@daily"
+
+git:
+  branches:
+    - main
+managed_scripts:
+  - docker_tag.sh
+docker_name: docker-siros-lote
+builders:
+  - docker
