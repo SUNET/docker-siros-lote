@@ -3,7 +3,7 @@
 # and publishes to /var/www/html/lote/.
 
 - load-lote:
-    - http://ms-registry:8000/registry/lote-se/
+    - http://ms-registry:8000/api/registry/lote-se/
 
 - publish-lote:
     - /var/www/html/lote

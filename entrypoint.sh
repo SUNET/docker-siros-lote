@@ -3,7 +3,7 @@ set -e
 
 # Wait for ms-registry to be ready before running tsl-tool.
 # depends_on only guarantees the container started, not that Django is serving.
-REGISTRY_URL="http://ms-registry:8000/registry/lote-se/"
+REGISTRY_URL="http://ms-registry:8000/api/registry/lote-se/"
 MAX_RETRIES=30
 RETRY_INTERVAL=5
 
