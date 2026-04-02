@@ -16,6 +16,9 @@ WORKDIR /build
 RUN git clone https://github.com/sirosfoundation/g119612.git . \
     && git checkout f36d655b8b9d38e0bfcf173da9b2f0ecd71e566a
 
+# Download all dependencies to populate go.sum before building
+RUN go mod download
+
 # Build tsl-tool binary with CGO enabled
 RUN CGO_ENABLED=1 GOOS=linux go build \
     -ldflags="-X main.Version=dev -w -s" \
