@@ -1,9 +1,6 @@
 #!/bin/sh
 set -e
 
-# Ensure files written by tsl-tool are world-readable for nginx
-umask 022
-
 # Wait for ms-registry to be ready before running tsl-tool.
 # depends_on only guarantees the container started, not that Django is serving.
 REGISTRY_URL="http://ms-registry:8000/api/lote-source/pid-providers/"
@@ -24,6 +21,7 @@ done
 echo "ms-registry is ready."
 
 mkdir -p /var/www/html/lote/pid_providers /var/www/html/lote/pubeaa_providers
+chmod o+x /var/www/html/lote/pid_providers /var/www/html/lote/pubeaa_providers
 
 echo "Running initial LoTE generation..."
 /usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml
