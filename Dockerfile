@@ -1,6 +1,6 @@
 # Multi-stage Docker build: tsl-tool binary for LoTE publishing
 # Builds tsl-tool from sirosfoundation/g119612 and sets up a cron-based publisher
-FROM golang:1.25-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 # Install CGO build dependencies (needed for pkcs11 + XML signature libraries)
 RUN apk add --no-cache \
