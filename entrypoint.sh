@@ -23,6 +23,8 @@ until wget -q --spider "$REGISTRY_URL" 2>/dev/null; do
 done
 echo "ms-registry is ready."
 
+mkdir -p /var/www/html/lote/pid_providers /var/www/html/lote/pubeaa_providers
+
 echo "Running initial LoTE generation..."
 /usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml
 /usr/local/bin/tsl-tool /etc/lote/publish-pubeaa-lote.yaml

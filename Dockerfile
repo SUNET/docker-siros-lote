@@ -41,7 +41,8 @@ COPY --from=builder /build/tsl-tool /usr/local/bin/tsl-tool
 
 # Create required directories
 RUN mkdir -p \
-    /var/www/html/lote \
+    /var/www/html/lote/pid_providers \
+    /var/www/html/lote/pubeaa_providers \
     /var/log
 
 # Copy pipeline configurations
