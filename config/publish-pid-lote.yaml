@@ -8,7 +8,7 @@
 #   pid_providers.xml         (XML representation)
 
 - load-lote:
-    - http://ms-registry:8000/lote-source/pid-providers/
+    - http://ms-registry:8000/api/lote-source/pid-providers/
 
 - publish-lote:
     - /var/www/html/lote/pid_providers

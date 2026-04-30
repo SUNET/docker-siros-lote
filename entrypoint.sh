@@ -6,7 +6,7 @@ umask 022
 
 # Wait for ms-registry to be ready before running tsl-tool.
 # depends_on only guarantees the container started, not that Django is serving.
-REGISTRY_URL="http://ms-registry:8000/lote-source/pid-providers/"
+REGISTRY_URL="http://ms-registry:8000/api/lote-source/pid-providers/"
 MAX_RETRIES=30
 RETRY_INTERVAL=5
 
