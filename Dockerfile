@@ -14,7 +14,7 @@ WORKDIR /build
 
 # Clone g119612 at a pinned commit for reproducible builds
 RUN git clone https://github.com/sirosfoundation/g119612.git . \
-    && git checkout f36d655b8b9d38e0bfcf173da9b2f0ecd71e566a
+    && git checkout 28620f4a80abdca4f5fd1f98c688a03837af7ef5
 
 # Download all dependencies to populate go.sum before building
 RUN go mod download
