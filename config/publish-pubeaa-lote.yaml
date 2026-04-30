@@ -1,0 +1,20 @@
+# Pipeline: PuB-EAA Providers LoTE (ETSI TS 119 602)
+# Fetches unsigned PuB-EAA LoTE from ms-registry, signs with JAdES-B-B,
+# and publishes to /var/www/html/lote/pubeaa_providers/.
+#
+# Output files:
+#   pubeaa_providers.json        (unsigned, filename from DistributionPoints in LoTE)
+#   pubeaa_providers.json.jws    (JAdES-B-B compact signature)
+#   pubeaa_providers.xml         (XML representation)
+#
+# Includes both active (granted) and revoked (withdrawn) entities —
+# withdrawn entries stay permanently so relying parties can verify past attestations.
+
+- load-lote:
+    - http://ms-registry:8000/lote-source/pubeaa-providers/
+
+- publish-lote:
+    - /var/www/html/lote/pubeaa_providers
+    - /etc/lote/signing-cert.pem
+    - /etc/lote/signing-key.pem
+    - xml

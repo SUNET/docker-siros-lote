@@ -1,9 +1,12 @@
 #!/bin/sh
 set -e
 
+# Ensure files written by tsl-tool are world-readable for nginx
+umask 022
+
 # Wait for ms-registry to be ready before running tsl-tool.
 # depends_on only guarantees the container started, not that Django is serving.
-REGISTRY_URL="http://ms-registry:8000/api/registry/lote-se/"
+REGISTRY_URL="http://ms-registry:8000/lote-source/pid-providers/"
 MAX_RETRIES=30
 RETRY_INTERVAL=5
 
@@ -21,7 +24,8 @@ done
 echo "ms-registry is ready."
 
 echo "Running initial LoTE generation..."
-/usr/local/bin/tsl-tool /etc/lote/publish-lote.yaml
+/usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml
+/usr/local/bin/tsl-tool /etc/lote/publish-pubeaa-lote.yaml
 
 echo "Starting cron daemon..."
 exec crond -f -l 8

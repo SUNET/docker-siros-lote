@@ -1,0 +1,17 @@
+# Pipeline: PID Providers LoTE (ETSI TS 119 602)
+# Fetches unsigned PID LoTE from ms-registry, signs with JAdES-B-B,
+# and publishes to /var/www/html/lote/pid_providers/.
+#
+# Output files:
+#   pid_providers.json        (unsigned, filename from DistributionPoints in LoTE)
+#   pid_providers.json.jws    (JAdES-B-B compact signature)
+#   pid_providers.xml         (XML representation)
+
+- load-lote:
+    - http://ms-registry:8000/lote-source/pid-providers/
+
+- publish-lote:
+    - /var/www/html/lote/pid_providers
+    - /etc/lote/signing-cert.pem
+    - /etc/lote/signing-key.pem
+    - xml

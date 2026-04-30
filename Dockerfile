@@ -44,11 +44,12 @@ RUN mkdir -p \
     /var/www/html/lote \
     /var/log
 
-# Copy pipeline configuration
-COPY config/publish-lote.yaml /etc/lote/publish-lote.yaml
+# Copy pipeline configurations
+COPY config/publish-pid-lote.yaml /etc/lote/publish-pid-lote.yaml
+COPY config/publish-pubeaa-lote.yaml /etc/lote/publish-pubeaa-lote.yaml
 
-# Install cron job: republish every 6 hours
-RUN echo '0 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-lote.yaml >> /var/log/lote-publish 2>&1' \
+# Install cron job: republish both LoTEs every 6 hours
+RUN echo '0 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml >> /var/log/lote-publish 2>&1 && /usr/local/bin/tsl-tool /etc/lote/publish-pubeaa-lote.yaml >> /var/log/lote-publish 2>&1' \
     >> /etc/crontabs/root
 
 # Copy entrypoint
