@@ -54,5 +54,9 @@ echo "Running initial LoTE generation..."
 /usr/local/bin/tsl-tool /etc/lote/publish-wrprc-lote.yaml
 /usr/local/bin/tsl-tool /etc/lote/publish-registrars-lote.yaml
 
+# Ensure all generated files are world-readable for nginx
+find /var/www/html/lote -type f -exec chmod o+r {} \;
+find /var/www/html/lote -type d -exec chmod o+rx {} \;
+
 echo "Starting cron daemon..."
 exec crond -f -l 8

@@ -57,13 +57,14 @@ COPY config/publish-wrpac-lote.yaml /etc/lote/publish-wrpac-lote.yaml
 COPY config/publish-wrprc-lote.yaml /etc/lote/publish-wrprc-lote.yaml
 COPY config/publish-registrars-lote.yaml /etc/lote/publish-registrars-lote.yaml
 
-# Install cron job: republish all LoTEs every 6 hours
-RUN echo '0 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
-    && echo '5 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-pubeaa-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
-    && echo '10 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-wallet-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
-    && echo '15 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-wrpac-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
-    && echo '20 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-wrprc-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
-    && echo '25 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-registrars-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root
+# Install cron job: republish all LoTEs every minute (for testing)
+RUN echo '* * * * * /usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '* * * * * /usr/local/bin/tsl-tool /etc/lote/publish-pubeaa-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '* * * * * /usr/local/bin/tsl-tool /etc/lote/publish-wallet-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '* * * * * /usr/local/bin/tsl-tool /etc/lote/publish-wrpac-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '* * * * * /usr/local/bin/tsl-tool /etc/lote/publish-wrprc-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '* * * * * /usr/local/bin/tsl-tool /etc/lote/publish-registrars-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '* * * * * find /var/www/html/lote -type f -exec chmod o+r {} \; >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root
 
 # Copy entrypoint
 COPY entrypoint.sh /entrypoint.sh
