@@ -8,10 +8,10 @@
 #   pid_providers.xml         (XML representation)
 
 - load-lote:
-    - http://ms-registry:8000/api/lote-source/pid-providers/
+      - http://ms-registry:8000/api/lote-source/pid-providers/
 
 - publish-lote:
-    - /var/www/html/lote/pid_providers
-    - /etc/lote/signing-cert.pem
-    - /etc/lote/signing-key.pem
-    - xml
+      - /var/www/html/lote/pid_providers
+      - /etc/lote/signing-cert.pem
+      - /etc/lote/signing-key.pem
+      - xml

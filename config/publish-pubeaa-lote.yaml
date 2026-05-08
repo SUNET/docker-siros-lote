@@ -11,10 +11,10 @@
 # withdrawn entries stay permanently so relying parties can verify past attestations.
 
 - load-lote:
-    - http://ms-registry:8000/api/lote-source/pubeaa-providers/
+      - http://ms-registry:8000/api/lote-source/pubeaa-providers/
 
 - publish-lote:
-    - /var/www/html/lote/pubeaa_providers
-    - /etc/lote/signing-cert.pem
-    - /etc/lote/signing-key.pem
-    - xml
+      - /var/www/html/lote/pubeaa_providers
+      - /etc/lote/signing-cert.pem
+      - /etc/lote/signing-key.pem
+      - xml

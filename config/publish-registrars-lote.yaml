@@ -1,0 +1,12 @@
+# Pipeline: Registrars & Registers LoTE (ETSI TS 119 602)
+# Fetches unsigned LoTE from wp4-onboarding, signs with JAdES-B-B,
+# and publishes to /var/www/html/lote/registrars_registers/.
+
+- load-lote:
+    - http://wp4-onboarding:8000/lists/registrars_registers-EU.json
+
+- publish-lote:
+    - /var/www/html/lote/registrars_registers
+    - /etc/lote/signing-cert.pem
+    - /etc/lote/signing-key.pem
+    - xml

@@ -1,12 +1,11 @@
 #!/bin/sh
 set -e
 
-# Wait for ms-registry to be ready before running tsl-tool.
-# depends_on only guarantees the container started, not that Django is serving.
-REGISTRY_URL="http://ms-registry:8000/api/lote-source/pid-providers/"
 MAX_RETRIES=30
 RETRY_INTERVAL=5
 
+# Wait for ms-registry (PID + PuB-EAA providers)
+REGISTRY_URL="http://ms-registry:8000/api/lote-source/pid-providers/"
 echo "Waiting for ms-registry to be ready..."
 i=0
 until wget -q --spider "$REGISTRY_URL" 2>/dev/null; do
@@ -20,12 +19,39 @@ until wget -q --spider "$REGISTRY_URL" 2>/dev/null; do
 done
 echo "ms-registry is ready."
 
-mkdir -p /var/www/html/lote/pid_providers /var/www/html/lote/pubeaa_providers
-chmod o+x /var/www/html/lote/pid_providers /var/www/html/lote/pubeaa_providers
+# Wait for wp4-onboarding (Wallet, WRPAC, WRPRC, Registrars)
+ONBOARDING_URL="http://wp4-onboarding:8000/healthz/"
+echo "Waiting for wp4-onboarding to be ready..."
+i=0
+until wget -q --spider "$ONBOARDING_URL" 2>/dev/null; do
+    i=$((i + 1))
+    if [ "$i" -ge "$MAX_RETRIES" ]; then
+        echo "wp4-onboarding not ready after $((MAX_RETRIES * RETRY_INTERVAL))s, giving up"
+        exit 1
+    fi
+    echo "  wp4-onboarding not ready yet (attempt $i/$MAX_RETRIES), retrying in ${RETRY_INTERVAL}s..."
+    sleep "$RETRY_INTERVAL"
+done
+echo "wp4-onboarding is ready."
+
+mkdir -p /var/www/html/lote/pid_providers \
+         /var/www/html/lote/pubeaa_providers \
+         /var/www/html/lote/wallet_providers \
+         /var/www/html/lote/wrpac_providers \
+         /var/www/html/lote/wrprc_providers \
+         /var/www/html/lote/registrars_registers
+
+chmod -R o+rx /var/www/html/lote
 
 echo "Running initial LoTE generation..."
+# From ms-registry (old flow)
 /usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml
 /usr/local/bin/tsl-tool /etc/lote/publish-pubeaa-lote.yaml
+# From wp4-onboarding (new flow)
+/usr/local/bin/tsl-tool /etc/lote/publish-wallet-lote.yaml
+/usr/local/bin/tsl-tool /etc/lote/publish-wrpac-lote.yaml
+/usr/local/bin/tsl-tool /etc/lote/publish-wrprc-lote.yaml
+/usr/local/bin/tsl-tool /etc/lote/publish-registrars-lote.yaml
 
 echo "Starting cron daemon..."
 exec crond -f -l 8

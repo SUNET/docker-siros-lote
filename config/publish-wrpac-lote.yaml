@@ -1,0 +1,12 @@
+# Pipeline: WRPAC Providers LoTE (ETSI TS 119 602)
+# Fetches unsigned LoTE from wp4-onboarding, signs with JAdES-B-B,
+# and publishes to /var/www/html/lote/wrpac_providers/.
+
+- load-lote:
+    - http://wp4-onboarding:8000/lists/wrpac_providers-EU.json
+
+- publish-lote:
+    - /var/www/html/lote/wrpac_providers
+    - /etc/lote/signing-cert.pem
+    - /etc/lote/signing-key.pem
+    - xml
