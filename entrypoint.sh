@@ -20,7 +20,8 @@ done
 echo "ms-registry is ready."
 
 # Wait for wp4-onboarding (Wallet, WRPAC, WRPRC, Registrars)
-ONBOARDING_URL="http://wp4-onboarding:8000/healthz/"
+# Use lists/index.json instead of /healthz/ because healthz may reject non-localhost hosts
+ONBOARDING_URL="http://wp4-onboarding:8000/lists/index.json"
 echo "Waiting for wp4-onboarding to be ready..."
 i=0
 until wget -q --spider "$ONBOARDING_URL" 2>/dev/null; do

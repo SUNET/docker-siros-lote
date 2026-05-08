@@ -43,15 +43,27 @@ COPY --from=builder /build/tsl-tool /usr/local/bin/tsl-tool
 RUN mkdir -p \
     /var/www/html/lote/pid_providers \
     /var/www/html/lote/pubeaa_providers \
+    /var/www/html/lote/wallet_providers \
+    /var/www/html/lote/wrpac_providers \
+    /var/www/html/lote/wrprc_providers \
+    /var/www/html/lote/registrars_registers \
     /var/log
 
 # Copy pipeline configurations
 COPY config/publish-pid-lote.yaml /etc/lote/publish-pid-lote.yaml
 COPY config/publish-pubeaa-lote.yaml /etc/lote/publish-pubeaa-lote.yaml
+COPY config/publish-wallet-lote.yaml /etc/lote/publish-wallet-lote.yaml
+COPY config/publish-wrpac-lote.yaml /etc/lote/publish-wrpac-lote.yaml
+COPY config/publish-wrprc-lote.yaml /etc/lote/publish-wrprc-lote.yaml
+COPY config/publish-registrars-lote.yaml /etc/lote/publish-registrars-lote.yaml
 
-# Install cron job: republish both LoTEs every 6 hours
-RUN echo '0 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml >> /var/log/lote-publish 2>&1 && /usr/local/bin/tsl-tool /etc/lote/publish-pubeaa-lote.yaml >> /var/log/lote-publish 2>&1' \
-    >> /etc/crontabs/root
+# Install cron job: republish all LoTEs every 6 hours
+RUN echo '0 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-pid-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '5 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-pubeaa-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '10 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-wallet-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '15 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-wrpac-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '20 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-wrprc-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root \
+    && echo '25 */6 * * * /usr/local/bin/tsl-tool /etc/lote/publish-registrars-lote.yaml >> /var/log/lote-publish 2>&1' >> /etc/crontabs/root
 
 # Copy entrypoint
 COPY entrypoint.sh /entrypoint.sh
